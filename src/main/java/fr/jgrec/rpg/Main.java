@@ -25,13 +25,19 @@ public class Main {
             System.out.print("> ");
 
             String input = new Scanner(System.in).nextLine();
-            if (input.equals("exit"))
-                break;
-            else if (input.equals("attack")) {
-                currentPlayer.attack(currentPlayer == player1 ? player2 : player1);
-                currentPlayer = currentPlayer == player1 ? player2 : player1;
-            } else if (input.equals("print"))
-                player1.getInventory().print();
+            switch (input) {
+                case "exit":
+                    return;
+                case "attack":
+                    currentPlayer.attack(currentPlayer == player1 ? player2 : player1);
+                    currentPlayer = currentPlayer == player1 ? player2 : player1;
+                    break;
+                case "print":
+                    player1.getInventory().print();
+                    break;
+                default:
+                    System.out.println("Unknown command");
+            }
 
             System.out.println("--------------------");
         }
