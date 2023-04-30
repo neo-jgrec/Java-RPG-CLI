@@ -2,18 +2,11 @@ package fr.jgrec.rpg;
 
 public class Inventory {
     private final Item[] items;
+    private final int nbSlots;
 
     public Inventory(int nbSlots) {
-        items = new Item[nbSlots];
-    }
-
-    public int getAvailableSlots() {
-        int nbSlots = 0;
-        for (Item item : items) {
-            if (item == null)
-                nbSlots++;
-        }
-        return nbSlots;
+        this.nbSlots = nbSlots;
+        this.items = new Item[nbSlots];
     }
 
     public int getNbItems() {
@@ -26,7 +19,7 @@ public class Inventory {
     }
 
     public void add(Item item) {
-        if (getAvailableSlots() == 0) {
+        if (this.getNbItems() == nbSlots) {
             System.out.println("Inventory is full");
             return;
         }
@@ -36,6 +29,17 @@ public class Inventory {
                 break;
             }
         }
+    }
+
+    public void remove(String name) {
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] != null && items[i].getName().equals(name)) {
+                items[i] = null;
+                System.out.println(name + " removed from inventory");
+                return;
+            }
+        }
+        System.out.println("Item not found in inventory");
     }
 
     public void print() {
@@ -50,7 +54,7 @@ public class Inventory {
         System.out.println("]");
     }
 
-    public boolean contains(Class<? extends Item> itemClass) {
+    public boolean contains_class(Class<? extends Item> itemClass) {
         for (Item item : items) {
             if (item != null && item.getClass() == itemClass)
                 return true;

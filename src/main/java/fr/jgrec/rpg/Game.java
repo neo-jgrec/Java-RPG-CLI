@@ -6,7 +6,7 @@ public class Game {
     private final Player player2;
     private Player currentPlayer;
     private enum inputType {
-        ATTACK, INVENTORY, QUIT, UNKNOWN
+        ATTACK, INVENTORY, QUIT, SEARCH, UNKNOWN
     }
 
     public Game(String player1Name, String player2Name, int player1Pv, int player2Pv) {
@@ -16,6 +16,7 @@ public class Game {
         player1.getInventory().add(new Item("Item1"));
         player2.getInventory().add(new Sword("Sword2", 30));
         player2.getInventory().add(new Item("Item11"));
+        player2.getInventory().add(new Potion("Potion1", 10));
         currentPlayer = player1;
     }
 
@@ -29,6 +30,8 @@ public class Game {
                 return inputType.ATTACK;
             case "print":
                 return inputType.INVENTORY;
+            case "search":
+                return inputType.SEARCH;
             default:
                 return inputType.UNKNOWN;
         }
@@ -56,7 +59,10 @@ public class Game {
                     currentPlayer = currentPlayer == player1 ? player2 : player1;
                     break;
                 case INVENTORY:
-                    player1.getInventory().print();
+                    currentPlayer.getInventory().print();
+                    break;
+                case SEARCH:
+                    currentPlayer.searchItemAction();
                     break;
                 default:
                     System.out.println("Unknown command");

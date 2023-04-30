@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Player {
     private final String name;
     private int pv;
-    private Inventory inventory;
+    private final Inventory inventory;
 
     public Player(String name, int pv) {
         this.name = name;
@@ -30,7 +30,7 @@ public class Player {
     }
 
     public void attack(Player player) {
-        if (inventory.contains(Sword.class)) {
+        if (inventory.contains_class(Sword.class)) {
 
             System.out.println("Choose a sword:");
             inventory.print_class(Sword.class);
@@ -38,7 +38,7 @@ public class Player {
 
             String input = new Scanner(System.in).nextLine();
             for (Item item : inventory.getItems()) {
-                if (item != null && item.getName().equals(input)) {
+                if (item != null && item.getName().equals(input) && item instanceof Sword) {
                     Sword sword = (Sword) item;
                     player.takeDamage(sword.getDamage());
                     System.out.println(player.getName() + " took " + sword.getDamage() + " damage");
@@ -49,5 +49,32 @@ public class Player {
             attack(player);
         } else
             System.out.println("No sword in inventory");
+    }
+
+    public void heal() {
+        if (inventory.contains_class(Potion.class)) {
+
+            System.out.println("Choose a potion:");
+            inventory.print_class(Potion.class);
+            System.out.print("> ");
+
+            String input = new Scanner(System.in).nextLine();
+            for (Item item : inventory.getItems()) {
+                if (item != null && item.getName().equals(input) && item instanceof Potion) {
+                    Potion potion = (Potion) item;
+                    pv += potion.getHeal();
+                    System.out.println("You healed " + potion.getHeal() + " pv");
+                    inventory.remove(potion.getName());
+                    return;
+                }
+            }
+            System.out.println("Potion not found");
+            heal();
+        } else
+            System.out.println("No potion in inventory");
+    }
+
+    public void searchItemAction() {
+
     }
 }
