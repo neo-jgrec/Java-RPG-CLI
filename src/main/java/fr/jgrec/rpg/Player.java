@@ -30,11 +30,10 @@ public class Player {
     }
 
     public void attack(Player player) {
-        // attack with a chosen sword in the inventory
         if (inventory.contains(Sword.class)) {
 
             System.out.println("Choose a sword:");
-            inventory.print();
+            inventory.print_class(Sword.class);
             System.out.print("> ");
 
             String input = new Scanner(System.in).nextLine();

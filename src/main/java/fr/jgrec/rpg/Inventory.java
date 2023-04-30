@@ -58,8 +58,16 @@ public class Inventory {
         return false;
     }
 
-    // get inventory items
     public Item[] getItems() {
         return items;
+    }
+
+    public void print_class(Class<? extends Item> itemClass) {
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] != null && items[i].getClass() == itemClass) {
+                System.out.print(items[i].getName() + " ");
+            }
+        }
+        System.out.println();
     }
 }

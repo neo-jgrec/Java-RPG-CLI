@@ -8,9 +8,14 @@ public class Game {
     private enum inputType {
         ATTACK, INVENTORY, QUIT, UNKNOWN
     }
+
     public Game(String player1Name, String player2Name, int player1Pv, int player2Pv) {
         player1 = new Player(player1Name, player1Pv);
         player2 = new Player(player2Name, player2Pv);
+        player1.getInventory().add(new Sword("Sword1", 10));
+        player1.getInventory().add(new Item("Item1"));
+        player2.getInventory().add(new Sword("Sword2", 30));
+        player2.getInventory().add(new Item("Item11"));
         currentPlayer = player1;
     }
 
