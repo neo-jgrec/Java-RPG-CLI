@@ -6,7 +6,7 @@ public class Game {
     private final Player player2;
     private Player currentPlayer;
     private enum inputType {
-        ATTACK, INVENTORY, QUIT, SEARCH, UNKNOWN
+        ATTACK, INVENTORY, QUIT, SEARCH, HEAL, UNKNOWN
     }
 
     public Game(String player1Name, String player2Name, int player1Pv, int player2Pv) {
@@ -32,6 +32,8 @@ public class Game {
                 return inputType.INVENTORY;
             case "search":
                 return inputType.SEARCH;
+            case "heal":
+                return inputType.HEAL;
             default:
                 return inputType.UNKNOWN;
         }
@@ -60,6 +62,9 @@ public class Game {
                     break;
                 case INVENTORY:
                     currentPlayer.getInventory().print();
+                    break;
+                case HEAL:
+                    currentPlayer.heal();
                     break;
                 case SEARCH:
                     currentPlayer.searchItemAction();
