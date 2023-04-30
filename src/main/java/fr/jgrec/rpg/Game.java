@@ -65,9 +65,11 @@ public class Game {
                     break;
                 case HEAL:
                     currentPlayer.heal();
+                    currentPlayer = currentPlayer == player1 ? player2 : player1;
                     break;
                 case SEARCH:
                     currentPlayer.searchItemAction();
+                    currentPlayer = currentPlayer == player1 ? player2 : player1;
                     break;
                 default:
                     System.out.println("Unknown command");

@@ -75,6 +75,15 @@ public class Player {
     }
 
     public void searchItemAction() {
+        int random = (int) (Math.random() * 3);
 
+        if (random == 0) {
+            System.out.println("You found a sword");
+            inventory.add(new Sword("Sword", 10));
+        } else if (random == 1) {
+            System.out.println("You found a potion");
+            inventory.add(new Potion("Potion", 10));
+        } else
+            System.out.println("You found nothing");
     }
 }
