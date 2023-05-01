@@ -29,49 +29,44 @@ public class Player {
         pv -= damage;
     }
 
-    public void attack(Player player) {
-        if (inventory.contains_class(Sword.class)) {
-
-            System.out.println("Choose a sword:");
-            inventory.print_class(Sword.class);
+    public void performAction(Player player, Class<? extends Item> itemClass, String action) {
+        if (inventory.contains_class(itemClass)) {
+            System.out.println("Choose an item:");
+            inventory.print_class(itemClass);
             System.out.print("> ");
 
             String input = new Scanner(System.in).nextLine();
             for (Item item : inventory.getItems()) {
-                if (item != null && item.getName().equals(input) && item instanceof Sword) {
-                    Sword sword = (Sword) item;
-                    player.takeDamage(sword.getDamage());
-                    System.out.println(player.getName() + " took " + sword.getDamage() + " damage");
+                if (item != null && item.getName().equals(input) && itemClass.isInstance(item)) {
+                    if (action.equals("attack") && item instanceof Sword) {
+                        Sword sword = (Sword) item;
+                        player.takeDamage(sword.getDamage());
+                        System.out.println(player.getName() + " took " + sword.getDamage() + " damage");
+                    } else if (action.equals("heal") && item instanceof Potion) {
+                        Potion potion = (Potion) item;
+                        pv += potion.getHeal();
+                        System.out.println("You healed " + potion.getHeal() + " pv");
+                        inventory.remove(potion.getName());
+                    }
                     return;
                 }
             }
-            System.out.println("Sword not found");
-            attack(player);
-        } else
-            System.out.println("No sword in inventory");
+            System.out.println("Item not found");
+            performAction(player, itemClass, action);
+        } else {
+            if (action.equals("attack")) {
+                System.out.println("No sword in inventory");
+            } else if (action.equals("heal")) {
+                System.out.println("No potion in inventory");
+            }
+        }
+    }
+    public void attack(Player player) {
+        performAction(player, Sword.class, "attack");
     }
 
     public void heal() {
-        if (inventory.contains_class(Potion.class)) {
-
-            System.out.println("Choose a potion:");
-            inventory.print_class(Potion.class);
-            System.out.print("> ");
-
-            String input = new Scanner(System.in).nextLine();
-            for (Item item : inventory.getItems()) {
-                if (item != null && item.getName().equals(input) && item instanceof Potion) {
-                    Potion potion = (Potion) item;
-                    pv += potion.getHeal();
-                    System.out.println("You healed " + potion.getHeal() + " pv");
-                    inventory.remove(potion.getName());
-                    return;
-                }
-            }
-            System.out.println("Potion not found");
-            heal();
-        } else
-            System.out.println("No potion in inventory");
+        performAction(this, Potion.class, "heal");
     }
 
     public void searchItemAction() {

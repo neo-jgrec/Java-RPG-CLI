@@ -5,38 +5,14 @@ public class Game {
     private final Player player1;
     private final Player player2;
     private Player currentPlayer;
-    private enum inputType {
-        ATTACK, INVENTORY, QUIT, SEARCH, HEAL, UNKNOWN
-    }
 
     public Game(String player1Name, String player2Name, int player1Pv, int player2Pv) {
         player1 = new Player(player1Name, player1Pv);
         player2 = new Player(player2Name, player2Pv);
         player1.getInventory().add(new Sword("Sword1", 10));
-        player1.getInventory().add(new Item("Item1"));
         player2.getInventory().add(new Sword("Sword2", 30));
-        player2.getInventory().add(new Item("Item11"));
         player2.getInventory().add(new Potion("Potion1", 10));
         currentPlayer = player1;
-    }
-
-    private inputType getInput() {
-        System.out.print("> ");
-        String input = new Scanner(System.in).nextLine();
-        switch (input) {
-            case "exit":
-                return inputType.QUIT;
-            case "attack":
-                return inputType.ATTACK;
-            case "print":
-                return inputType.INVENTORY;
-            case "search":
-                return inputType.SEARCH;
-            case "heal":
-                return inputType.HEAL;
-            default:
-                return inputType.UNKNOWN;
-        }
     }
 
     public void start() {
@@ -53,28 +29,30 @@ public class Game {
             System.out.println("Player2 pv: " + player2.getPv());
             System.out.println(currentPlayer.getName() + "'s turn");
 
-            switch (getInput()) {
-                case QUIT:
+            System.out.println("Choose an action:");
+            System.out.println("1. Attack (attack), 2. Heal (heal), 3. Search for an item (search), 4. Print inventory (print), 5. Quit (exit)");
+            switch (new Scanner(System.in).nextLine()) {
+                case "exit":
                     return;
-                case ATTACK:
+                case "attack":
                     currentPlayer.attack(currentPlayer == player1 ? player2 : player1);
                     currentPlayer = currentPlayer == player1 ? player2 : player1;
                     break;
-                case INVENTORY:
+                case "print":
                     currentPlayer.getInventory().print();
                     break;
-                case HEAL:
+                case "heal":
                     currentPlayer.heal();
                     currentPlayer = currentPlayer == player1 ? player2 : player1;
                     break;
-                case SEARCH:
+                case "search":
                     currentPlayer.searchItemAction();
                     currentPlayer = currentPlayer == player1 ? player2 : player1;
                     break;
                 default:
                     System.out.println("Unknown command");
+                    break;
             }
-
             System.out.println("--------------------");
         }
     }

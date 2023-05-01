@@ -56,7 +56,7 @@ public class Inventory {
 
     public boolean contains_class(Class<? extends Item> itemClass) {
         for (Item item : items) {
-            if (item != null && item.getClass() == itemClass)
+            if (itemClass.isInstance(item))
                 return true;
         }
         return false;
@@ -68,7 +68,7 @@ public class Inventory {
 
     public void print_class(Class<? extends Item> itemClass) {
         for (int i = 0; i < items.length; i++) {
-            if (items[i] != null && items[i].getClass() == itemClass) {
+            if (items[i] != null && itemClass.isInstance(items[i])) {
                 System.out.print(items[i].getName() + " ");
             }
         }
