@@ -67,9 +67,9 @@ public class Inventory {
     }
 
     public void print_class(Class<? extends Item> itemClass) {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] != null && itemClass.isInstance(items[i])) {
-                System.out.print(items[i].getName() + " ");
+        for (Item item : items) {
+            if (itemClass.isInstance(item)) {
+                System.out.print(item.getName() + " ");
             }
         }
         System.out.println();
